@@ -24,8 +24,8 @@ num_classes = 10
 input_shape = (28, 28, 1)
 MODEL_DIR = "/model/"
 
-print("TFCONFIG")
-print(os.getenv("TF_CONFIG"))
+#print("TFCONFIG")
+#print(os.getenv("TF_CONFIG"))
 
 #load dataset
 f = gzip.open('/mnist/mnist.pkl.gz', 'rb')
@@ -48,10 +48,15 @@ print(x_test.shape[0], "test samples")
 y_train = keras.utils.to_categorical(y_train, num_classes)
 y_test = keras.utils.to_categorical(y_test, num_classes)
 
+tf_config = json.loads(os.environ['TF_CONFIG'])
+print(tff_config)
+num_workers = len(tf_config['cluster']['worker'])
+print(num_workers)
+
 # Network
 def model_with_strategy():
-    strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy()
-    #print('Number of devices: {}'.format(strategy.num_replicas_in_sync))
+    strategy = tf.distribute.MirroredStrategy()
+    print('Number of devices: {}'.format(strategy.num_replicas_in_sync))
     with strategy.scope():
         model = keras.Sequential(
                 [

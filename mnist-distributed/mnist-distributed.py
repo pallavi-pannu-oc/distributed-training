@@ -55,7 +55,8 @@ num_workers = len(tf_config['cluster']['worker'])
 print(num_workers)
 print("GPus")
 print(tf.config.experimental.list_physical_devices())
-
+print("nvidia-visible-devices")
+print(os.getenv('NVIDIA_VISIBLE_DEVICES'))
 # Network
 def model_with_strategy():
     strategy = tf.distribute.MirroredStrategy()

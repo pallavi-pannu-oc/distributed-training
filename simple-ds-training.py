@@ -1,7 +1,10 @@
 import tensorflow as tf
+import os
 global_batch_size = 2
+
+print(os.getenv("TF_CONFIG"))
 # Passing the devices is optional.
-strategy = tf.distribute.MirroredStrategy(cross_device_ops=tf.distribute.HierarchicalCopyAllReduce()))
+strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy()
 # Create a dataset
 dataset = tf.data.Dataset.range(4).batch(global_batch_size)
 # Distribute that dataset

@@ -1,7 +1,7 @@
 import tensorflow as tf
 global_batch_size = 2
 # Passing the devices is optional.
-strategy = tf.distribute.MirroredStrategy(devices=["GPU:0", "GPU:1"])
+strategy = tf.distribute.MirroredStrategy(cross_device_ops=tf.distribute.HierarchicalCopyAllReduce()))
 # Create a dataset
 dataset = tf.data.Dataset.range(4).batch(global_batch_size)
 # Distribute that dataset

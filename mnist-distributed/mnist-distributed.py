@@ -50,7 +50,7 @@ y_train = keras.utils.to_categorical(y_train, num_classes)
 y_test = keras.utils.to_categorical(y_test, num_classes)
 
 tf_config = json.loads(os.environ['TF_CONFIG'])
-print(tff_config)
+print(tf_config)
 num_workers = len(tf_config['cluster']['worker'])
 print(num_workers)
 

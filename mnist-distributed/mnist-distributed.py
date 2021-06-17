@@ -9,8 +9,8 @@ import tensorflow as tf
 import argparse
 
 #limit training to 1 core
-tf.config.threading.set_intra_op_parallelism_threads(1)
-tf.config.threading.set_inter_op_parallelism_threads(1)
+#tf.config.threading.set_intra_op_parallelism_threads(1)
+#tf.config.threading.set_inter_op_parallelism_threads(1)
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--batch_size', type=int, default=128, help='Batch size for training.')
@@ -23,6 +23,9 @@ print ("Number of epochs:", epochs)
 num_classes = 10
 input_shape = (28, 28, 1)
 MODEL_DIR = "/model/"
+
+print("TFCONFIG")
+print(os.getenv("TF_CONFIG"))
 
 #load dataset
 f = gzip.open('/mnist/mnist.pkl.gz', 'rb')
@@ -48,6 +51,7 @@ y_test = keras.utils.to_categorical(y_test, num_classes)
 # Network
 def model_with_strategy():
     strategy = tf.distribute.MirroredStrategy()
+    print('Number of devices: {}'.format(strategy.num_replicas_in_sync))
     with strategy.scope():
         model = keras.Sequential(
                 [

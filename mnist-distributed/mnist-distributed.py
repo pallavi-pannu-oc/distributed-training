@@ -50,7 +50,8 @@ y_test = keras.utils.to_categorical(y_test, num_classes)
 
 # Network
 def model_with_strategy():
-    strategy = tf.distribute.MirroredStrategy()
+    strategy = tf.distribute.MirroredStrategy(cross_device_ops=tf.contrib.distribute.AllReduceCrossDeviceOps(
+                         all_reduce_alg="hierarchical_copy")
     print('Number of devices: {}'.format(strategy.num_replicas_in_sync))
     with strategy.scope():
         model = keras.Sequential(

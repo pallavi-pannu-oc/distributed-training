@@ -54,7 +54,7 @@ print(tf_config)
 num_workers = len(tf_config['cluster']['worker'])
 print(num_workers)
 print("GPus")
-tf.config.experimental.list_physical_devices()
+print(tf.config.experimental.list_physical_devices())
 
 # Network
 def model_with_strategy():

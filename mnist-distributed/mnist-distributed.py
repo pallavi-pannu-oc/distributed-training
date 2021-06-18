@@ -8,7 +8,7 @@ import numpy as np
 import tensorflow as tf
 import argparse
 
-MODEL_DIR = "/model"
+MODEL_DIR = "/model/"
 input_shape = (28, 28, 1)
 num_classes = 10
 

@@ -21,7 +21,7 @@
  - Framework: Tensorflow
  - Version: 2.0.0-gpu
  - Start-up script: python mnist-distributed/mnist-distributed.py
- - Repos->Inputs->Datasets: select mnist dand enter mountpath as /mnist
+ - Repos->Inputs->Datasets: select mnist dataset enter mountpath as /mnist
  - Repos->Outputs->Model: select distributed-model and enter mountpath as /model
  - **Allocate GPUS **
  - **Select Distributed workloads : Automatic Distribution**

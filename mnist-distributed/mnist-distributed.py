@@ -12,6 +12,11 @@ MODEL_DIR = "/model/"
 input_shape = (28, 28, 1)
 num_classes = 10
 
+TF_CONFIG = os.environ.get('TF_CONFIG')
+print(TF_CONFIG)
+if TF_CONFIG and '"master"' in TF_CONFIG:
+    os.environ['TF_CONFIG'] = TF_CONFIG.replace('"master"', '"chief"')
+    
 def data_loader(hyperparams):
     f = gzip.open('/mnist/mnist.pkl.gz', 'rb')
     dataset = pickle.load(f, encoding='bytes')
@@ -31,7 +36,8 @@ def data_loader(hyperparams):
     )
     
 def model_with_strategy(learning_rate):
-    strategy = tf.distribute.MirroredStrategy()
+    #strategy = tf.distribute.MirroredStrategy()
+    strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy()
     with strategy.scope():
         model = keras.Sequential(
                 [

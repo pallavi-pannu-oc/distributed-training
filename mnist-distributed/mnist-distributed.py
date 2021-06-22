@@ -12,7 +12,7 @@ MODEL_DIR = "/model/"
 input_shape = (28, 28, 1)
 num_classes = 10
 
-strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy()
+
     
 def data_loader(hyperparams):
     f = gzip.open('/mnist/mnist.pkl.gz', 'rb')
@@ -37,13 +37,11 @@ def model_with_strategy(learning_rate):
     print(type(TF_CONFIG))
     print("original TF_CONFIG")
     print(TF_CONFIG)
-    
-    if TF_CONFIG and '"master"' in str(TF_CONFIG):
-      print("entered replacement condition")
-      os.environ['TF_CONFIG'] = TF_CONFIG.replace('"master"', '"chief"')
-    
     print("AFTER REPLACEMENT TF_CONFIG")
-    print(TF_CONFIG)  
+    os.environ['TF_CONFIG'] = TF_CONFIG.replace('"master"', '"chief"')
+    print(TF_CONFIG) 
+    
+    strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy()
     with strategy.scope():
         model = keras.Sequential(
                 [

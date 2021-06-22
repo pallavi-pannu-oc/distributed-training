@@ -92,8 +92,8 @@ if __name__ == "__main__":
     print(TF_CONFIG)
     
     if TF_CONFIG and '"master"' in str(TF_CONFIG):
-    print("entered replacement condition")
-    os.environ['TF_CONFIG'] = TF_CONFIG.replace('"master"', '"chief"')
+      print("entered replacement condition")
+      os.environ['TF_CONFIG'] = TF_CONFIG.replace('"master"', '"chief"')
     
     print("AFTER REPLACEMENT TF_CONFIG")
     print(TF_CONFIG)  

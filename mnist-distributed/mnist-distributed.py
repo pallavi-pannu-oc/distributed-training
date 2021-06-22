@@ -19,8 +19,6 @@ print(TF_CONFIG)
 print("AFTER REPLACEMENT TF_CONFIG")
 os.environ['TF_CONFIG'] = TF_CONFIG.replace('"master"', '"chief"')
 print(os.environ['TF_CONFIG']) 
-
-strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy()
     
 def data_loader(hyperparams):
     f = gzip.open('/mnist/mnist.pkl.gz', 'rb')
@@ -41,6 +39,7 @@ def data_loader(hyperparams):
     )
     
 def model_with_strategy(learning_rate):
+    strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy()
     with strategy.scope():
         model = keras.Sequential(
                 [

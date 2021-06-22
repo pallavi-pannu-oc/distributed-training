@@ -12,19 +12,6 @@ MODEL_DIR = "/model/"
 input_shape = (28, 28, 1)
 num_classes = 10
 
-TF_CONFIG = os.environ.get('TF_CONFIG')
-print(type(TF_CONFIG))
-print("original TF_CONFIG")
-print(TF_CONFIG)
-
-if TF_CONFIG and '"master"' in str(TF_CONFIG):
-    print("entered replacement condition")
-    os.environ['TF_CONFIG'] = TF_CONFIG.replace('"master"', '"chief"')
-    
-print("AFTER REPLACEMENT TF_CONFIG")
-print(TF_CONFIG)  
-    
-
 #strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy()
     
 def data_loader(hyperparams):
@@ -98,6 +85,19 @@ if __name__ == "__main__":
     learning_rate = float(args.learning_rate)
     batch_size = int(args.batch_size)
     epochs = int(args.epochs)
+    
+    TF_CONFIG = os.environ.get('TF_CONFIG')
+    print(type(TF_CONFIG))
+    print("original TF_CONFIG")
+    print(TF_CONFIG)
+    
+    if TF_CONFIG and '"master"' in str(TF_CONFIG):
+    print("entered replacement condition")
+    os.environ['TF_CONFIG'] = TF_CONFIG.replace('"master"', '"chief"')
+    
+    print("AFTER REPLACEMENT TF_CONFIG")
+    print(TF_CONFIG)  
+    
     strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy()
     model = DistributedTrainingMnistClassification(learning_rate, batch_size, epochs)
     model.train()

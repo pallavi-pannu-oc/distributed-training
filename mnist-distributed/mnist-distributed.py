@@ -20,7 +20,7 @@ print("AFTER REPLACEMENT TF_CONFIG")
 os.environ['TF_CONFIG'] = TF_CONFIG.replace('"master"', '"chief"')
 print(os.environ['TF_CONFIG']) 
 
-strategy = tf.distribute.MultiWorkerMirroredStrategy()
+strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy()
     
 def data_loader(hyperparams):
     f = gzip.open('/mnist/mnist.pkl.gz', 'rb')

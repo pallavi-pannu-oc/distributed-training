@@ -13,8 +13,15 @@ input_shape = (28, 28, 1)
 num_classes = 10
 
 TF_CONFIG = os.environ.get('TF_CONFIG')
-print("original")
+print("original TF_CONFIG")
 print(TF_CONFIG)
+
+  if TF_CONFIG and '"master"' in TF_CONFIG:
+    os.environ['TF_CONFIG'] = TF_CONFIG.replace('"master"', '"chief"')
+    
+  print("AFTER REPLACEMENT TF_CONFIG")
+  print(TF_CONFIG)  
+    
 
 #strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy()
     

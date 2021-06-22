@@ -13,9 +13,10 @@ input_shape = (28, 28, 1)
 num_classes = 10
 
 TF_CONFIG = os.environ.get('TF_CONFIG')
+print("original")
 print(TF_CONFIG)
-if TF_CONFIG and '"master"' in TF_CONFIG:
-    os.environ['TF_CONFIG'] = TF_CONFIG.replace('"master"', '"chief"')
+
+#strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy()
     
 def data_loader(hyperparams):
     f = gzip.open('/mnist/mnist.pkl.gz', 'rb')
@@ -36,8 +37,7 @@ def data_loader(hyperparams):
     )
     
 def model_with_strategy(learning_rate):
-    #strategy = tf.distribute.MirroredStrategy()
-    strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy()
+    #strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy()
     with strategy.scope():
         model = keras.Sequential(
                 [
@@ -89,5 +89,6 @@ if __name__ == "__main__":
     learning_rate = float(args.learning_rate)
     batch_size = int(args.batch_size)
     epochs = int(args.epochs)
+    strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy()
     model = DistributedTrainingMnistClassification(learning_rate, batch_size, epochs)
     model.train()

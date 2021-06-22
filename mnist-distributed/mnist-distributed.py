@@ -16,11 +16,11 @@ TF_CONFIG = os.environ.get('TF_CONFIG')
 print("original TF_CONFIG")
 print(TF_CONFIG)
 
-  if TF_CONFIG and '"master"' in TF_CONFIG:
-    os.environ['TF_CONFIG'] = TF_CONFIG.replace('"master"', '"chief"')
+if TF_CONFIG and '"master"' in TF_CONFIG:
+  os.environ['TF_CONFIG'] = TF_CONFIG.replace('"master"', '"chief"')
     
-  print("AFTER REPLACEMENT TF_CONFIG")
-  print(TF_CONFIG)  
+print("AFTER REPLACEMENT TF_CONFIG")
+print(TF_CONFIG)  
     
 
 #strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy()

@@ -92,7 +92,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-lr", "--learning_rate", default="1e-4", help="Learning rate for the Keras optimizer")
     parser.add_argument("-bsz", "--batch_size", default="64", help="Batch size for each step of learning")
-    parser.add_argument("-e", "--epochs", default=int(os.getenv("EPOCHS","5"), help="Number of epochs in each trial")
+    parser.add_argument("-e", "--epochs", default=int(os.getenv("EPOCHS","5")), help="Number of epochs in each trial")
     args = parser.parse_args()
     learning_rate = float(args.learning_rate)
     batch_size = int(args.batch_size)

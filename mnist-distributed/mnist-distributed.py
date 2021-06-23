@@ -13,18 +13,10 @@ MODEL_DIR = "/model/"
 input_shape = (28, 28, 1)
 num_classes = 10
 
-TF_CONFIG = os.environ.get('TF_CONFIG')
-print(type(TF_CONFIG))
-print("original TF_CONFIG")
-print(TF_CONFIG)
-print("AFTER REPLACEMENT TF_CONFIG")
-os.environ['TF_CONFIG'] = TF_CONFIG.replace('"master"', '"chief"')
 print(os.environ['TF_CONFIG']) 
 print("gpuuuuuuu")
 print(os.environ['NVIDIA_VISIBLE_DEVICES'])
 
-if ast.literal_eval(TF_CONFIG)['task']['type'] != 'ps':
-    strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy()
     
 def data_loader(hyperparams):
     f = gzip.open('/mnist/mnist.pkl.gz', 'rb')
@@ -45,20 +37,19 @@ def data_loader(hyperparams):
     )
     
 def model_with_strategy(learning_rate):
-    with strategy.scope():
-        model = keras.Sequential(
-                [
-                    keras.Input(shape=input_shape),
-                    layers.Conv2D(32, kernel_size=(3, 3), activation="relu"),
-                    layers.MaxPooling2D(pool_size=(2, 2)),
-                    layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
-                    layers.MaxPooling2D(pool_size=(2, 2)),
-                    layers.Flatten(),
-                    layers.Dropout(0.5),
-                    layers.Dense(num_classes, activation="softmax"),
-                ]
-            )
-        model.compile(loss="categorical_crossentropy", optimizer=tf.keras.optimizers.Adam(learning_rate), metrics=["accuracy"])
+     model = keras.Sequential(
+        [
+            keras.Input(shape=input_shape),
+            layers.Conv2D(32, kernel_size=(3, 3), activation="relu"),
+            layers.MaxPooling2D(pool_size=(2, 2)),
+            layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
+            layers.MaxPooling2D(pool_size=(2, 2)),
+            layers.Flatten(),
+            layers.Dropout(0.5),
+            layers.Dense(num_classes, activation="softmax"),
+        ]
+    )
+     model.compile(loss="categorical_crossentropy", optimizer=tf.keras.optimizers.Adam(learning_rate), metrics=["accuracy"])
     return model
   
 class DistributedTrainingMnistClassification(object):
@@ -69,8 +60,6 @@ class DistributedTrainingMnistClassification(object):
         self.train_dataset, self.test_dataset = data_loader(hyperparams)
         
     def train(self):
-        if ast.literal_eval(TF_CONFIG)['task']['type'] != 'ps':
-            model = model_with_strategy(self.learning_rate)
             #steps per epoch are reduced here to train on limited resources
             #you are free to remove this argument
             history = model.fit(self.train_dataset, 

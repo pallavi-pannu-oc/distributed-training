@@ -20,6 +20,8 @@ print(TF_CONFIG)
 print("AFTER REPLACEMENT TF_CONFIG")
 os.environ['TF_CONFIG'] = TF_CONFIG.replace('"master"', '"chief"')
 print(os.environ['TF_CONFIG']) 
+print("gpuuuuuuu")
+print(os.environ['NVIDIA_VISIBLE_DEVICES'])
 
 if ast.literal_eval(TF_CONFIG)['task']['type'] != 'ps':
     strategy = tf.distribute.experimental.MultiWorkerMirroredStrategy()

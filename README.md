@@ -36,6 +36,6 @@ It is handled between DKube and TFJob operators.
    - For multiworker : python mnist-distributed/multiworker_mnist.py
  - Repos->Inputs->Datasets: select mnist dataset enter mountpath as /mnist
  - Repos->Outputs->Model: select distributed-model and enter mountpath as /model
- - **Allocate GPUS **
+ - **Allocate GPUS**
  - **Select Distributed workloads : Automatic Distribution**
  - Submit

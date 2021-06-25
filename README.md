@@ -1,9 +1,9 @@
 # DISTRIBUTED TRAINING MNIST EXAMPLE 
 
 ## Directory Structure
-   1. Single host, multiple device synchronous training - which uses **MirrorStrategy**. **Code in mirrored_mnist.py.**
+   1. Single host, multiple device synchronous training - which uses **MirrorStrategy**. **Code in mnist-distributed/mirrored_mnist.py.**
    2. On a cluster of many machines, each hosting one or multiple GPUs (multi-worker distributed training) - which uses **MultiworkerMirrorStrategy.
-      Code in multiworker_mnist.py**
+      Code in mnist-distributed/multiworker_mnist.py**
       
 **Note:** The way TF distributed works is, TF operator sets the distributed cluster configuration in an env named TF_CONFIG, It automatically inserts the ENV in each worker, chief and parameter server.
 It is handled between DKube and TFJob operators.
